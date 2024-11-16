@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PaLeva - Pedidos</title>
+</head>
+
+<body>
+  <div id="app">
+    <h1>Pedidos do Estabelecimento</h1>
+
+    <input type="text" v-model="searchCodeText" placeholder="Entre com um código de pedido">
+    <button @click="get_data">Carregar Dados</button>
+    <ul>
+      <li v-for="item in listOrder">
+        <address>
+          <b>Pedido: {{ item.code }}</b><br>
+          Dados do Cliente ----------- <br>
+          Nome: {{ item.customerName }} <br>
+          CPF: {{ item.customerCPF }} <br>
+          Número de Telefone: {{ item.customerPhoneNumber }} <br>
+          E-mail: {{ item.customerEmail }} <br>
+          Dados do Pedido ------------ <br>
+          Status Atual: {{ item.status }} <br>
+          Pedido Criado em: {{ item.createdAt }}
+        </address>
+        <br>
+      </li>
+    </ul>
+  </div>
+
+
+
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="main.js"></script>
+</body>
+
+</html>
