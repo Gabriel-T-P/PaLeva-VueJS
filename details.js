@@ -63,7 +63,6 @@ const app = Vue.createApp({
       let response = await fetch(`http://localhost:3000/api/v1/orders/${orderId}/set_status_cooking`, { method: 'PATCH' });
 
       if (response.ok) {
-        let data = await response.json();
         location.reload();
         alert('Pedido atualizado:');
       } else {
@@ -71,8 +70,19 @@ const app = Vue.createApp({
       }
     },
 
-    setReady() {
+    async setReady() {
+      // Captura o ID do pedido da URL
+      const params = new URLSearchParams(window.location.search);
+      const orderId = params.get('id');
 
+      let response = await fetch(`http://localhost:3000/api/v1/orders/${orderId}/set_status_ready`, { method: 'PATCH' });
+
+      if (response.ok) {
+        location.reload();
+        alert('Pedido atualizado:');
+      } else {
+        alert('Erro ao atualizar o pedido:');
+      }
     },
 
     // Melhora visualização do status
