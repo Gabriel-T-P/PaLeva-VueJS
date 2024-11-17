@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PaLeva - Pedidos</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -12,19 +13,17 @@
     <h1>Pedidos do Estabelecimento</h1>
 
     <input type="text" v-model="searchCodeText" placeholder="Entre com um código de pedido">
-    <button @click="get_data">Carregar Dados</button>
+    <div v-if="listResultOrders.length <= 0">
+      Nenhum pedido encontrado.
+    </div>
     <ul>
-      <li v-for="item in listOrder">
+      <li v-for="item in listResultOrders">
         <address>
           <b>Pedido: {{ item.code }}</b><br>
-          Dados do Cliente ----------- <br>
-          Nome: {{ item.customerName }} <br>
-          CPF: {{ item.customerCPF }} <br>
-          Número de Telefone: {{ item.customerPhoneNumber }} <br>
-          E-mail: {{ item.customerEmail }} <br>
           Dados do Pedido ------------ <br>
-          Status Atual: {{ item.status }} <br>
-          Pedido Criado em: {{ item.createdAt }}
+          Status Atual: {{ getStatusDescription(item.status) }} <br>
+          Pedido Criado em: {{ formatDate(item.createdAt) }} <br>
+          <button @click="redirectToDetails(item.id)">Detalhes do Pedido</button>
         </address>
         <br>
       </li>
@@ -34,7 +33,7 @@
 
 
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-  <script src="main.js"></script>
+  <script src="index.js"></script>
 </body>
 
 </html>
