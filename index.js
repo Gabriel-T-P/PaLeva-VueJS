@@ -2,20 +2,25 @@ const app = Vue.createApp({
   data() {
     return {
       searchCodeText: '',
+      selectedFilter: 'all',
       listOrder: []
     }
   },
 
   computed: {
-    // Lista todos os pedidos de acordo com o código
+    // Lista todos os pedidos de acordo com o código e status
     listResultOrders() {
       if (this.searchCodeText) {
         return this.listOrder.filter(order => {
-          return order.code.includes(this.searchCodeText.toUpperCase());
+          const matchesStatus = this.selectedFilter === 'all' || order.status === this.selectedFilter;
+          const matchesSearch = order.code.includes(this.searchCodeText.toUpperCase());
+          return matchesStatus && matchesSearch;
         });
-
       } else {
-        return this.listOrder;
+        // Se não houver texto na busca, apenas filtra pelo status
+        return this.listOrder.filter(order => {
+          return this.selectedFilter === 'all' || order.status === this.selectedFilter;
+        });
       }
     }
   },

@@ -13,7 +13,19 @@
     <h1>Pedidos do Estabelecimento</h1>
 
     <input type="text" v-model="searchCodeText" placeholder="Entre com um código de pedido">
-    <div v-if="listResultOrders.length <= 0">
+    <div>
+      <label>
+        <input type="radio" name="option" value="all" v-model="selectedFilter"> Todos
+      </label>
+      <label>
+        <input type="radio" name="option" value="waiting_cook_confirmation" v-model="selectedFilter"> Esperando
+        Confirmação
+      </label>
+      <label>
+        <input type="radio" name="option" value="cooking" v-model="selectedFilter"> Em Preparo
+      </label>
+    </div>
+    <div class="noOrder" v-if="listResultOrders.length <= 0">
       Nenhum pedido encontrado.
     </div>
     <ul>
