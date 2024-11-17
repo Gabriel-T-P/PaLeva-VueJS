@@ -29,29 +29,50 @@ const app = Vue.createApp({
       const orderId = params.get('id');
 
       // Busca o pedido pelo id na API
-      let response = await fetch(`http://localhost:3000/api/v1/orders/${orderId}`);
-      let data = await response.json();
-      var order = new Object();
-      var customer = new Object();
+      try {
+        let response = await fetch(`http://localhost:3000/api/v1/orders/${orderId}`);
+        let data = await response.json();
+        var order = new Object();
+        var customer = new Object();
+        if (data) {
+          // Order
+          order.establishmentCode = data.establishment_code;
+          order.code = data.order.code;
+          order.status = data.order.status;
+          order.createdAt = data.order.created_at;
+          order.portions = data.portions;
+          // Customer
+          customer.name = data.order.name;
+          customer.cpf = data.order.cpf;
+          customer.email = data.order.email;
+          customer.phoneNumber = data.order.phone_number;
 
-      if (data) {
-        // Order
-        order.establishmentCode = data.establishment_code;
-        order.code = data.order.code;
-        order.status = data.order.status;
-        order.createdAt = data.order.created_at;
-        order.portions = data.portions;
-        // Customer
-        customer.name = data.order.name;
-        customer.cpf = data.order.cpf;
-        customer.email = data.order.email;
-        customer.phoneNumber = data.order.phone_number;
-
-        this.order = order;
-        this.customer = customer;
-      } else {
+          this.order = order;
+          this.customer = customer;
+        }
+      } catch (error) {
         alert('Pedido não encontrado.');
       }
+    },
+
+    async setCooking() {
+      // Captura o ID do pedido da URL
+      const params = new URLSearchParams(window.location.search);
+      const orderId = params.get('id');
+
+      let response = await fetch(`http://localhost:3000/api/v1/orders/${orderId}/set_status_cooking`, { method: 'PATCH' });
+
+      if (response.ok) {
+        let data = await response.json();
+        location.reload();
+        alert('Pedido atualizado:');
+      } else {
+        alert('Erro ao atualizar o pedido:');
+      }
+    },
+
+    setReady() {
+
     },
 
     // Melhora visualização do status

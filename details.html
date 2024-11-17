@@ -20,8 +20,8 @@
     <p><strong>Status:</strong> {{ getStatusDescription(order.status) }}</p>
     <p><strong>Criado em:</strong> {{ formatDate(order.createdAt) }}</p>
     <button @click="goBack">Voltar</button>
-    <button v-if="order.status == 'waiting_cook_confirmation'">Marcar Em Preparo</button>
-    <button v-if="order.status == 'cooking'">Marcar Pronto</button>
+    <button @click="setCooking" v-if="order.status == 'waiting_cook_confirmation'">Marcar Em Preparo</button>
+    <button @click="setReady" v-if="order.status == 'cooking'">Marcar Pronto</button>
   </div>
 
 
