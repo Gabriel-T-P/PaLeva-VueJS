@@ -20,8 +20,18 @@
     <p><strong>Status:</strong> {{ getStatusDescription(order.status) }}</p>
     <p><strong>Criado em:</strong> {{ formatDate(order.createdAt) }}</p>
     <button @click="goBack">Voltar</button>
-    <button @click="setCooking" v-if="order.status == 'waiting_cook_confirmation'">Marcar Em Preparo</button>
-    <button @click="setReady" v-if="order.status == 'cooking'">Marcar Pronto</button>
+    <button @click="setCooking" v-if="order.status === 'waiting_cook_confirmation'">Marcar Em Preparo</button>
+    <button @click="setReady" v-if="order.status === 'cooking'">Marcar Pronto</button>
+    <hr>
+    <div v-if="['cooking', 'waiting_cook_confirmation'].includes(order.status)">
+      <button @click="setCanceled">Marcar Cancelado</button>
+      <input type="text" v-model="cancelReason" placeholder="Motivo do cancelamento">
+    </div>
+    <div v-if="order.status === 'canceled'">
+      <div v-if="cancelReason.length >= 3">
+        <p> <strong>Motivo do Cancelamento:</strong> {{ cancelReason }} </p>
+      </div>
+    </div>
   </div>
 
 

@@ -18,6 +18,11 @@ body {
   min-height: 100vh;
 }
 
+hr {
+  border: 1px solid #eee;
+  margin: 20px 0;
+}
+
 #app {
   background-color: #fff;
   border-radius: 8px;

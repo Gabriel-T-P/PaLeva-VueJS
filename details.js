@@ -1,6 +1,8 @@
 const app = Vue.createApp({
   data() {
     return {
+      cancelReason: ' ',
+
       order: {
         establishmentCode: null,
         code: null,
@@ -49,6 +51,13 @@ const app = Vue.createApp({
 
           this.order = order;
           this.customer = customer;
+
+          console.log(data.order.cancel_reason)
+          if (data.order.cancel_reason) {
+            this.cancelReason = data.order.cancel_reason;
+          } else {
+            this.cancelReason = ' '
+          }
         }
       } catch (error) {
         alert('Pedido não encontrado.');
@@ -76,6 +85,22 @@ const app = Vue.createApp({
       const orderId = params.get('id');
 
       let response = await fetch(`http://localhost:3000/api/v1/orders/${orderId}/set_status_ready`, { method: 'PATCH' });
+
+      if (response.ok) {
+        location.reload();
+        alert('Pedido atualizado:');
+      } else {
+        alert('Erro ao atualizar o pedido:');
+      }
+    },
+
+    async setCanceled() {
+      // Captura o ID do pedido da URL
+      const params = new URLSearchParams(window.location.search);
+      const orderId = params.get('id');
+
+      console.log(this.cancelReason)
+      let response = await fetch(`http://localhost:3000/api/v1/${this.order.establishmentCode}/${this.order.code}/orders/${orderId}/set_status_canceled?cancel_reason=${this.cancelReason}`, { method: 'PATCH' });
 
       if (response.ok) {
         location.reload();
